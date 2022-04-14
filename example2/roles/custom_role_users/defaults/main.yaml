@@ -1,0 +1,11 @@
+
+# Variable named users that has a list
+users: 
+  - username: hannua
+    state: present
+
+  - username: hannub
+    state: absent
+
+  - username: hannuc
+    state: present

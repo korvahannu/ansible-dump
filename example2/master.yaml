@@ -1,0 +1,8 @@
+
+
+- name: Configure server users
+  hosts: all
+  roles: # roles always come before tasks
+    - custom_role_users
+  # tasks:
+  # some tasks here

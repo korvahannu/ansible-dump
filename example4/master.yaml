@@ -1,0 +1,44 @@
+
+
+- name: "Loops example"
+  hosts: all
+  gather_facts: no
+  vars:
+    my_list: ["one", "two", "three"]
+    complex_list:
+    - name: Mike  # Note that you don't actually need to use " "
+      year: 1994
+    - location: Oulu
+      country: Finland
+    simple_map:
+      name: Hannu,
+      age: 27,
+      gender: male
+    enable_loop: true
+  tasks:
+    - debug:
+        msg: "Hello, {{item}}"
+      loop: "{{my_list}}"
+      tags:
+        - first tag # We can tag tasks and run tasks only with specific tags
+        - second tag
+        - third tag
+        
+    - debug:
+        msg: "{{item}}"
+      loop: "{{complex_list}}"
+      tags:
+        - first tag
+        - second tag
+      
+    - debug:
+        msg: "{{item.key}} == {{item.value}}"
+      loop: "{{simple_map|dict2items}}" # Pipe our item to dict2items
+      tags:
+        - second tag
+        - third tag
+
+    - debug:
+        msg: "Conditional loop {{item}}"
+      loop: "{{my_list}}"
+      when: not enable_loop

@@ -1,0 +1,1 @@
+ansible-playbook master.yaml -i inventory.ini -u root

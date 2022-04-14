@@ -1,0 +1,86 @@
+
+
+- name: Variables example
+  hosts: all
+  gather_facts: no # prevents ansible from gathering info, speeds up playbook
+  vars:
+    hello: Hello
+    test: My name is Hannu
+  tasks:
+    - debug:
+        msg: "{{hello}} world!"
+    - debug:
+        msg: "{{test}}"
+
+
+- name: List example
+  hosts: all 
+  gather_facts: no
+  vars:
+    list_example: [ 1, 2, 3, 4 ,5 ]
+    another_list:
+      - "a"
+      - "b"
+      - "c"
+    another_another_list:
+      - name: Hannu
+        age: 5
+      - name: Jack
+        age: 20
+  tasks:
+    - debug:
+        msg: "{{list_example}}"
+    - debug:
+        msg: "{{another_list}}"
+    - debug:
+        msg: "{{another_another_list}}"
+
+- name: Maps example
+  hosts: all
+  gather_facts: no
+  vars:
+    group:
+      name: The Daisy gathering
+      members:
+        - name: Hannu
+          age: 26
+        - name: Nea
+          age: 27
+  tasks:
+    - debug:
+        msg: "{{group.name}}: {{group.members}}"
+
+- name: Conditionals example
+  hosts: all
+  gather_facts: no
+  vars:
+    maptest:
+      a: [ 1,2]
+      b: [3]
+      c: [4]
+    runtask: true
+    saygoodbye: false
+    a: 1
+  tasks:
+    - debug:
+        msg: "Hello{{maptest.a|type_debug}}"
+    - debug:
+        msg: "this is a conditional debug message which will run if runtask = true"
+      when: runtask == true
+    - debug:
+        msg: "This will not run"
+      when: runtask == false
+    - debug: 
+        msg: "Will I run?"
+      when: runtask != true
+    - debug: 
+        msg: "Will I run??"
+      when: not runtask and saygoodbye == false
+    - debug:
+        msg: "How about me?"
+      when:
+        - runtask == true
+        - a == 1 or a == 0
+    - debug:
+        msg: "even more conditionals"
+      when: (runtask == true and a == 1) or (saygoodbye == false or maptest.a[0] == 1)
