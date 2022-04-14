@@ -1,0 +1,25 @@
+
+
+# Play 1
+- name: Configure the servers
+  hosts: all
+  become: yes # become the root user
+  tasks:
+    - name: Create a non-root user
+      user: # user-module
+        name: neav
+        state: present
+    - name: Install nginx
+      package: # package-module
+        name: nginx
+        state: absent
+
+# Play 2
+- name: Configure databases
+  hosts: myinventory
+  become: yes
+  tasks:
+    - name: Install MySQL Server
+      package:
+        name: mysql-server
+        state: absent
